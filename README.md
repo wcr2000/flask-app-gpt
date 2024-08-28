@@ -1,5 +1,6 @@
-# flask-app-gpt
+# flask-app-gpt (sentiment , btc price) api
 
+## Template openai connect model
 ```python
 import openai
 
