@@ -12,39 +12,6 @@ load_dotenv()
 app = Flask(__name__)
 
 
-# Route to get Bitcoin price
-@app.route("/btc", methods=["GET"])
-def get_btc_price():
-    try:
-        response = requests.get(
-            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
-        )
-
-        # Check if the request was successful
-        if response.status_code == 200:
-            try:
-                data = response.json()
-                btc_price = data.get("bitcoin", {}).get("usd", "Price not available")
-                return jsonify({"bitcoin_price_usd": btc_price})
-            except ValueError:
-                # Handle case where response is not valid JSON
-                return jsonify({"error": "Invalid JSON response from CoinGecko"}), 500
-        else:
-            # Handle non-200 status codes
-            return (
-                jsonify(
-                    {
-                        "error": f"Failed to retrieve data, status code: {response.status_code}"
-                    }
-                ),
-                500,
-            )
-
-    except requests.exceptions.RequestException as e:
-        # Handle network-related errors
-        return jsonify({"error": str(e)}), 500
-
-
 # Route to analyze sentiment using OpenAI GPT
 @app.route("/sentiment", methods=["POST"])
 def analyze_sentiment():
