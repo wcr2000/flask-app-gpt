@@ -29,28 +29,15 @@ def analyze_sentiment():
             messages=[
                 {
                     "role": "system",
-                    "content": "Analyze the sentiment of the following text:",
+                    "content": f"ตอบข้อความไปนี้ให้ตลกที่สุด: {text}",
                 },
                 {"role": "user", "content": text},
             ],
         )
 
         # Extract the sentiment from the response
-        sentiment_response = response["choices"][0]["message"]["content"].strip()
-        # print(sentiment_response)
-
-        # Assuming that sentiment_response contains the sentiment in neg, neu, or pos format
-        if "neg" in sentiment_response.lower():
-            sentiment = "neg"
-        elif "neu" in sentiment_response.lower():
-            sentiment = "neu"
-        elif "pos" in sentiment_response.lower():
-            sentiment = "pos"
-        else:
-            sentiment = "unknown"
-
-        return jsonify({"sentiment": sentiment})
-
+        result = response["choices"][0]["message"]["content"].strip()
+        return jsonify({"response": result })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
